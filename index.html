@@ -278,10 +278,10 @@
         const certifications = [
             { name: "Applied Cloud Computing", issuer: "TCS", date: "2025", link: "#", image:"images/TCS.png" },
             { name: "AI for Everyone", issuer: "DeepLearning.AI", date: "2025", link: "#", image: "images/AI for All.png" },
-            { name: "Introduction to Data Analysis", issuer: "Meta (Coursera)", date: "2025", link: "#", image: "images/Data Analysis.png" },
-            { name: "Machine Learning for All", issuer: "University of London (Coursera)", date: "2025", link: "#", image: "images/ML for All.png" },
-            { name: "Python Programming", issuer: "University Of Pennsylvania (Coursera)", date: "2025", link: "#", image: "images/Python.png" },
-            { name: "AWS Cloud Technical Essentials", issuer: "Amazon Web Services (Coursera)", date: "2025", link: "#", image: "images/AWS.png" },
+            { name: "Introduction to Data Analysis", issuer: "Meta (Coursera)", date: "2025", link: "#", image: "Data Analysis.png" },
+            { name: "Machine Learning for All", issuer: "University of London (Coursera)", date: "2025", link: "#", image: "ML for All.png" },
+            { name: "Python Programming", issuer: "University Of Pennsylvania (Coursera)", date: "2025", link: "#", image: "Python.png" },
+            { name: "AWS Cloud Technical Essentials", issuer: "Amazon Web Services (Coursera)", date: "2025", link: "#", image: "AWS.png" },
         ];
 
         const education = [
@@ -413,7 +413,7 @@
             </nav>
         );
 
-        const StockGraph = () => {
+const StockGraph = () => {
   const pathRef = React.useRef(null);
 
   React.useEffect(() => {
@@ -499,6 +499,61 @@
     </div>
   );
 };
+
+            const SecurityRadar = () => {
+            const [blips, setBlips] = useState([
+                { id: 1, type: 'ransomware', angle: 45, distance: 80 },
+                { id: 2, type: 'virus', angle: 120, distance: 70 },
+                { id: 3, type: 'malware', angle: 240, distance: 85 }
+            ]);
+
+            return (
+                <div className="relative w-72 h-72 mx-auto bg-slate-950 rounded-full border border-emerald-500/30 overflow-hidden flex items-center justify-center mb-2 shadow-lg shadow-emerald-500/5 group animate-[float_6s_ease-in-out_infinite]">
+                    <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle, #10b981 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+                    <div className="absolute w-[80%] h-[80%] rounded-full border border-emerald-500/20"></div>
+                    <div className="absolute w-[60%] h-[60%] rounded-full border border-emerald-500/20"></div>
+                    <div className="absolute w-[40%] h-[40%] rounded-full border border-emerald-500/20"></div>
+                    <div className="absolute w-full h-[1px] bg-emerald-500/20"></div>
+                    <div className="absolute h-full w-[1px] bg-emerald-500/20"></div>
+                    <div className="absolute w-1/2 h-1/2 top-0 right-0 origin-bottom-left bg-gradient-to-t from-emerald-500/0 to-emerald-500/30 animate-[spin_4s_linear_infinite]" style={{ borderLeft: '1px solid rgba(16, 185, 129, 0.5)' }}></div>
+                    
+                    {blips.map(blip => (
+                        <div key={blip.id} className="absolute w-6 h-6 flex items-center justify-center animate-pulse" 
+                            style={{ 
+                                top: '50%', 
+                                left: '50%', 
+                                marginTop: '-12px', 
+                                marginLeft: '-12px',
+                                transform: `rotate(${blip.angle}deg) translateX(${blip.distance * 2}px) rotate(-${blip.angle}deg)` 
+                            }}>
+                            {blip.type === 'ransomware' && (
+                                <div className="relative">
+                                    <Icon name="Lock" className="w-4 h-4 text-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
+                                    <span className="absolute -top-4 -left-2 text-[8px] text-red-400 font-mono whitespace-nowrap bg-black/50 px-1 rounded">RANSOMWARE</span>
+                                </div>
+                            )}
+                            {blip.type === 'virus' && (
+                                <div className="relative">
+                                    <Icon name="Skull" className="w-4 h-4 text-rose-500 drop-shadow-[0_0_8px_rgba(244,63,94,0.8)]" />
+                                    <span className="absolute -top-4 -left-2 text-[8px] text-rose-400 font-mono whitespace-nowrap bg-black/50 px-1 rounded">VIRUS</span>
+                                </div>
+                            )}
+                            {blip.type === 'malware' && (
+                                <div className="relative">
+                                    <Icon name="AlertTriangle" className="w-4 h-4 text-yellow-500 drop-shadow-[0_0_8px_rgba(234,179,8,0.8)]" />
+                                    <span className="absolute -top-4 -left-2 text-[8px] text-yellow-400 font-mono whitespace-nowrap bg-black/50 px-1 rounded">MALWARE</span>
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                    <div className="z-10 bg-slate-900 p-2 rounded-full border border-emerald-500/50">
+                        <Icon name="Crosshair" className="w-6 h-6 text-emerald-500 animate-spin-slow" />
+                    </div>
+                    <div className="absolute top-10"><div className="flex items-center space-x-2"><div className="w-2 h-2 bg-emerald-500 rounded-full animate-ping"></div><span className="text-[10px] font-mono text-emerald-500">SCANNING...</span></div></div>
+                    <div className="absolute bottom-10"><span className="text-[10px] font-mono text-emerald-500/70">DETECTED: {blips.length}</span></div>
+                </div>
+            );
+        } ;
 
         const RecruiterTerminal = () => {
             const [lines, setLines] = useState([{ type: 'system', text: 'Initializing candidate_profile.exe...' }]);
@@ -667,9 +722,9 @@ enhance digital security, streamline workflows, and deliver impactful IT solutio
                                 </div>
                             </FadeIn>
                         </div>
-                        <div className="flex flex-col items-center justify-center w-full gap- 0.1">
+                        <div className="flex flex-col items-center justify-center w-full gap-4">
 
-                            <FadeIn delay={900}><ThreatRadar /></FadeIn>
+                            <FadeIn delay={900}><StockGraph /></FadeIn>
                             <FadeIn delay={1100}><RecruiterTerminal /></FadeIn>
                         </div>
                     </div>
@@ -860,8 +915,3 @@ enhance digital security, streamline workflows, and deliver impactful IT solutio
         </script>
     </body>
 </html>
-
-
-
-
-
