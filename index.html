@@ -413,76 +413,92 @@
             </nav>
         );
 
-        const ThreatRadar = () => {
-            const [blips, setBlips] = useState([]);
+        const StockGraph = () => {
+  const pathRef = React.useRef(null);
 
-            useEffect(() => {
-                const interval = setInterval(() => {
-                    const id = Date.now();
-                    const angle = Math.random() * 360;
-                    const distance = Math.random() * 40 + 10;
-                    // RANDOMIZE THREAT TYPE: Ransomware, Virus, Malware
-                    const rand = Math.random();
-                    let type;
-                    if (rand < 0.33) type = 'ransomware';
-                    else if (rand < 0.66) type = 'virus';
-                    else type = 'malware';
+  React.useEffect(() => {
+    const path = pathRef.current;
+    const length = path.getTotalLength();
 
-                    setBlips(prev => [...prev, { id, angle, distance, type }]);
-                    setTimeout(() => {
-                        setBlips(prev => prev.filter(b => b.id !== id));
-                    }, 3000);
-                }, 1500);
-                return () => clearInterval(interval);
-            }, []);
+    const animate = () => {
+      path.style.transition = "none";
+      path.style.strokeDasharray = length;
+      path.style.strokeDashoffset = length;
 
-            return (
-                <div className="relative w-72 h-72 mx-auto bg-slate-950 rounded-full border border-emerald-500/30 overflow-hidden flex items-center justify-center mb-2 shadow-lg shadow-emerald-500/5 group animate-[float_6s_ease-in-out_infinite]">
-                    <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle, #10b981 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
-                    <div className="absolute w-[80%] h-[80%] rounded-full border border-emerald-500/20"></div>
-                    <div className="absolute w-[60%] h-[60%] rounded-full border border-emerald-500/20"></div>
-                    <div className="absolute w-[40%] h-[40%] rounded-full border border-emerald-500/20"></div>
-                    <div className="absolute w-full h-[1px] bg-emerald-500/20"></div>
-                    <div className="absolute h-full w-[1px] bg-emerald-500/20"></div>
-                    <div className="absolute w-1/2 h-1/2 top-0 right-0 origin-bottom-left bg-gradient-to-t from-emerald-500/0 to-emerald-500/30 animate-[spin_4s_linear_infinite]" style={{ borderLeft: '1px solid rgba(16, 185, 129, 0.5)' }}></div>
-                    
-                    {blips.map(blip => (
-                        <div key={blip.id} className="absolute w-6 h-6 flex items-center justify-center animate-pulse" 
-                            style={{ 
-                                top: '50%', 
-                                left: '50%', 
-                                marginTop: '-12px', 
-                                marginLeft: '-12px',
-                                transform: `rotate(${blip.angle}deg) translateX(${blip.distance * 2}px) rotate(-${blip.angle}deg)` 
-                            }}>
-                            {blip.type === 'ransomware' && (
-                                <div className="relative">
-                                    <Icon name="Lock" className="w-4 h-4 text-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
-                                    <span className="absolute -top-4 -left-2 text-[8px] text-red-400 font-mono whitespace-nowrap bg-black/50 px-1 rounded">RANSOMWARE</span>
-                                </div>
-                            )}
-                            {blip.type === 'virus' && (
-                                <div className="relative">
-                                    <Icon name="Skull" className="w-4 h-4 text-rose-500 drop-shadow-[0_0_8px_rgba(244,63,94,0.8)]" />
-                                    <span className="absolute -top-4 -left-2 text-[8px] text-rose-400 font-mono whitespace-nowrap bg-black/50 px-1 rounded">VIRUS</span>
-                                </div>
-                            )}
-                            {blip.type === 'malware' && (
-                                <div className="relative">
-                                    <Icon name="AlertTriangle" className="w-4 h-4 text-yellow-500 drop-shadow-[0_0_8px_rgba(234,179,8,0.8)]" />
-                                    <span className="absolute -top-4 -left-2 text-[8px] text-yellow-400 font-mono whitespace-nowrap bg-black/50 px-1 rounded">MALWARE</span>
-                                </div>
-                            )}
-                        </div>
-                    ))}
-                    <div className="z-10 bg-slate-900 p-2 rounded-full border border-emerald-500/50">
-                        <Icon name="Crosshair" className="w-6 h-6 text-emerald-500 animate-spin-slow" />
-                    </div>
-                    <div className="absolute top-10"><div className="flex items-center space-x-2"><div className="w-2 h-2 bg-emerald-500 rounded-full animate-ping"></div><span className="text-[10px] font-mono text-emerald-500">SCANNING...</span></div></div>
-                    <div className="absolute bottom-10"><span className="text-[10px] font-mono text-emerald-500/70">DETECTED: {blips.length}</span></div>
-                </div>
-            );
-        };
+      path.getBoundingClientRect();
+
+      path.style.transition = "stroke-dashoffset 3.5s ease-in-out";
+      path.style.strokeDashoffset = "0";
+    };
+
+    animate();
+    const interval = setInterval(animate, 4500);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="bg-gray-900 border border-blue-500 p-6 rounded-xl shadow-lg w-full max-w-full max-auto">
+      <h3 className="text-blue-400 font-semibold mb-6">
+        Performance Analysis
+      </h3>
+
+      <svg viewBox="0 0 320 160" className="w-full h-40">
+        {/* Grid */}
+        <line x1="0" y1="150" x2="320" y2="150" stroke="#1F2937" />
+        <line x1="0" y1="110" x2="320" y2="110" stroke="#111827" />
+        <line x1="0" y1="70" x2="320" y2="70" stroke="#111827" />
+        <line x1="0" y1="30" x2="320" y2="30" stroke="#111827" />
+
+        {/* Stock-style fluctuating path */}
+        <defs>
+  <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.4" />
+    <stop offset="100%" stopColor="#3B82F6" stopOpacity="0" />
+  </linearGradient>
+</defs>
+        <path
+  d="
+    M 0 150
+    L 40 130
+    L 80 140
+    L 120 100
+    L 160 115
+    L 200 75
+    L 240 95
+    L 280 55
+    L 320 40
+    L 320 150
+    L 0 150
+    Z
+  "
+  fill="url(#areaGradient)"
+/>
+        <path
+          ref={pathRef}
+          d="
+            M 0 150
+            L 40 130
+            L 80 140
+            L 120 100
+            L 160 115
+            L 200 75
+            L 240 95
+            L 280 55
+            L 320 40
+          "
+          stroke="#3B82F6"
+          strokeWidth="2"
+          fill="none"
+        />
+      </svg>
+
+      <div className="mt-4 text-xs text-gray-400">
+        Real-Time Model Insights
+      </div>
+    </div>
+  );
+};
 
         const RecruiterTerminal = () => {
             const [lines, setLines] = useState([{ type: 'system', text: 'Initializing candidate_profile.exe...' }]);
@@ -844,6 +860,7 @@ enhance digital security, streamline workflows, and deliver impactful IT solutio
         </script>
     </body>
 </html>
+
 
 
 
