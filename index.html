@@ -438,12 +438,42 @@ const StockGraph = () => {
   }, []);
 
   return (
-    <div className="bg-gray-900 border border-blue-500 p-6 rounded-xl shadow-lg w-full max-w-full max-auto">
+    <div className="bg-gray-900 border border-blue-500 p-6 rounded-xl shadow-lg w-[450px] mx-auto">
       <h3 className="text-blue-400 font-semibold mb-6">
         Performance Analysis
       </h3>
 
       <svg viewBox="0 0 320 160" className="w-full h-40">
+        {/* Y Axis */}
+  <line x1="0" y1="0" x2="0" y2="150" stroke="#6B7280" strokeWidth="1" />
+
+  {/* X Axis */}
+  <line x1="0" y1="150" x2="320" y2="150" stroke="#6B7280" strokeWidth="1" />
+
+  {/* Horizontal grid */}
+  <line x1="0" y1="150" x2="320" y2="150" stroke="#1F2937" />
+  <line x1="0" y1="110" x2="320" y2="110" stroke="#111827" />
+  <line x1="0" y1="70" x2="320" y2="70" stroke="#111827" />
+  <line x1="0" y1="30" x2="320" y2="30" stroke="#111827" />
+  
+  {/* Vertical grid (optional) */}
+  {[0, 40, 80, 120, 160, 200, 240, 280, 320].map((x) => (
+    <line key={x} x1={x} y1="0" x2={x} y2="150" stroke="#1F2937" strokeWidth="0.5" />
+  ))}
+
+  {/* Y Axis Labels */}
+{[0, 50, 100].map((y) => (
+  <text key={y} x="-5" y={150 - y} fontSize="10" fill="#9CA3AF" textAnchor="end" alignmentBaseline="middle">
+    {y}
+  </text>
+))}
+
+{/* X Axis Labels */}
+{[0, 40, 80, 120, 160, 200, 240, 280, 320].map((x) => (
+  <text key={x} x={x} y="160" fontSize="10" fill="#9CA3AF" textAnchor="middle">
+    {x}
+  </text>
+))}          
         {/* Grid */}
         <line x1="0" y1="150" x2="320" y2="150" stroke="#1F2937" />
         <line x1="0" y1="110" x2="320" y2="110" stroke="#111827" />
@@ -915,4 +945,5 @@ enhance digital security, streamline workflows, and deliver impactful IT solutio
         </script>
     </body>
 </html>
+
 
